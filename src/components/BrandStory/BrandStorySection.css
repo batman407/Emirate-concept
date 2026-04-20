@@ -1,0 +1,268 @@
+/* ============================================================
+   BRAND STORY SECTION — SCROLL-PINNED CINEMATIC SEQUENCE
+   ============================================================ */
+.brand-story {
+  position: relative;
+}
+
+/* Sticky viewport */
+.brand-story__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Spacer — creates scroll travel */
+.brand-story__spacer {
+  position: relative;
+  pointer-events: none;
+}
+
+/* Background */
+.brand-story__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Transition fades (Experience -> Story -> Globe) */
+.brand-story__bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
+  z-index: 15;
+}
+
+.brand-story__bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background: linear-gradient(to top, var(--bg-primary) 0%, transparent 100%);
+  z-index: 15;
+}
+
+.brand-story__bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 1.2s ease, transform 8s ease;
+}
+
+.brand-story__bg-slide--active {
+  opacity: 1;
+  transform: scale(1.0);
+}
+
+.brand-story__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(0,0,0,0.60) 0%,
+    rgba(0,0,0,0.2) 60%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* Content */
+.brand-story__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.brand-story__left {
+  max-width: 620px;
+}
+
+.brand-story__scene-num {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--champagne);
+  margin-bottom: 20px;
+}
+
+.brand-story__headline {
+  color: white;
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+
+.brand-story__body {
+  color: rgba(255,255,255,0.80);
+  max-width: 480px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* Logo reveal */
+.brand-story__logo-reveal {
+  margin-top: 44px;
+}
+
+.brand-story__logo-box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand-story__logo-e {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background: var(--emirates-red);
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 50px;
+  color: white;
+  font-weight: 300;
+}
+
+.brand-story__logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-story__logo-name {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: white;
+}
+
+.brand-story__logo-tagline {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--champagne);
+  letter-spacing: 0.1em;
+}
+
+/* Progress dots */
+.brand-story__progress {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brand-story__progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 0.3s;
+}
+
+.brand-story__progress-dot--active {
+  background: white;
+  transform: scale(1.5);
+}
+
+.brand-story__progress-dot--done {
+  background: var(--champagne);
+}
+
+/* Route line */
+.brand-story__route-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.7;
+}
+
+.brand-story__route-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: routeLine 8s linear infinite;
+}
+
+/* Voiceover button */
+.brand-story__voice-btn {
+  position: absolute;
+  top: 40px;
+  right: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 40px;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 50;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-premium);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.brand-story__voice-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .brand-story__headline {
+    font-size: clamp(3rem, 7vw, 4rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-story__progress {
+    right: 16px;
+  }
+
+  .brand-story__left {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .brand-story__headline {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+  }
+
+  .brand-story__voice-btn {
+    top: 20px;
+    right: 20px;
+  }
+  
+  .brand-story__voice-btn span {
+    display: none;
+  }
+}

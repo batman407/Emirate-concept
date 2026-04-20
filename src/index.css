@@ -1,0 +1,412 @@
+/* ============================================================
+   EMIRATES CONCEPT REDESIGN — GLOBAL DESIGN SYSTEM
+   ============================================================ */
+
+/* --- CSS Variables / Design Tokens --- */
+:root {
+  /* Brand Colors */
+  --emirates-red: #D71921;
+  --emirates-red-dark: #A8131A;
+  --emirates-red-light: #E84349;
+  --emirates-red-glow: rgba(215, 25, 33, 0.25);
+
+  /* Light Mode */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F7F5;
+  --bg-tertiary: #F0EDEA;
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #888888;
+  --border-color: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255, 255, 255, 0.95);
+
+  /* Champagne / Gold Accents */
+  --champagne: #C9A96E;
+  --champagne-light: #E8D4A8;
+  --champagne-dark: #9B7A3D;
+  --gold: #B8960C;
+
+  /* Spacing */
+  --section-pad: 100px 0;
+  --section-pad-sm: 60px 0;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+  --shadow-xl: 0 40px 100px rgba(0,0,0,0.20);
+
+  /* Transitions */
+  --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+
+  /* Z-index */
+  --z-nav: 1000;
+  --z-modal: 2000;
+  --z-overlay: 500;
+}
+
+/* Dark Mode Tokens */
+.dark {
+  --bg-primary: #050505;
+  --bg-secondary: #0A0A0A;
+  --bg-tertiary: #141414;
+  --text-primary: #F5F0EA;
+  --text-secondary: #C8C0B4;
+  --text-muted: #7A7268;
+  --border-color: rgba(201, 169, 110, 0.15); /* Subtle gold/bronze accent */
+  --nav-bg: rgba(5, 5, 5, 0.90);
+  --shadow-sm: 0 2px 12px rgba(201, 169, 110, 0.05); /* Soft gold shadow */
+  --shadow-md: 0 8px 32px rgba(201, 169, 110, 0.08);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.6s var(--ease-premium), color 0.6s var(--ease-premium), border-color 0.6s var(--ease-premium);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   ============================================================ */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 4.8rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.heading-xl {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.heading-lg {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.heading-md {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 500;
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.body-sm {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   LAYOUT UTILITIES
+   ============================================================ */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.container-sm {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.container-xs {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.section-sm {
+  padding: 60px 0;
+}
+
+/* ============================================================
+   BUTTON SYSTEM
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: all 0.3s var(--ease-premium);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  transform: translateX(-100%);
+  transition: transform 0.4s var(--ease-premium);
+}
+
+.btn:hover::before {
+  transform: translateX(0);
+}
+
+.btn-primary {
+  background: var(--emirates-red);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--emirates-red-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px var(--emirates-red-glow);
+}
+
+.btn-outline {
+  border: 1px solid currentColor;
+  color: white;
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-ghost:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+}
+
+.btn-icon {
+  padding: 14px 20px;
+}
+
+/* ============================================================
+   PAGE / SECTION DIVIDERS
+   ============================================================ */
+.section-divider {
+  width: 48px;
+  height: 2px;
+  background: var(--emirates-red);
+  margin-bottom: 24px;
+}
+
+.section-divider-gold {
+  width: 48px;
+  height: 1px;
+  background: var(--champagne);
+  margin-bottom: 24px;
+}
+
+/* ============================================================
+   ANIMATIONS & KEYFRAMES
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--emirates-red-glow); }
+  50% { box-shadow: 0 0 0 12px transparent; }
+}
+
+@keyframes routeLine {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--emirates-red);
+  border-radius: 3px;
+}
+
+/* ============================================================
+   CUSTOM GLASS CARD
+   ============================================================ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-lg);
+}
+
+.dark .glass-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ============================================================
+   MEDIA / RESPONSIVE BASE
+   ============================================================ */
+@media (max-width: 1200px) {
+  .container, .container-sm, .container-xs {
+    padding: 0 32px;
+  }
+  .section { padding: 80px 0; }
+}
+
+@media (max-width: 768px) {
+  .container, .container-sm, .container-xs {
+    padding: 0 20px;
+  }
+  .section { padding: 60px 0; }
+  .section-sm { padding: 40px 0; }
+}
+
+@media (max-width: 480px) {
+  .container, .container-sm, .container-xs {
+    padding: 0 16px;
+  }
+}

@@ -1,0 +1,208 @@
+/* ============================================================
+   DESTINATIONS SECTION
+   ============================================================ */
+.destinations {
+  background: var(--bg-secondary);
+}
+
+.destinations__header {
+  margin-bottom: 44px;
+}
+
+.destinations__eyebrow {
+  color: var(--emirates-red);
+  margin-bottom: 12px;
+}
+
+.destinations__title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.destinations__title {
+  color: var(--text-primary);
+}
+
+.destinations__title em {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.destinations__all-btn {
+  font-size: 0.78rem;
+  padding: 10px 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Grid */
+.destinations__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+/* Featured tiles span more */
+.dest-tile--featured {
+  grid-row: span 2;
+}
+
+/* Destination tile */
+.dest-tile {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  transition: transform 0.5s var(--ease-premium), box-shadow 0.5s;
+}
+
+.dest-tile--featured {
+  aspect-ratio: auto;
+}
+
+.dest-tile:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Media */
+.dest-tile__media {
+  position: absolute;
+  inset: 0;
+}
+
+.dest-tile__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-premium);
+}
+
+.dest-tile:hover .dest-tile__img {
+  transform: scale(1.07);
+}
+
+.dest-tile__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.80) 0%,
+    rgba(0,0,0,0.2) 55%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+/* Content */
+.dest-tile__content {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+}
+
+.dest-tile__mood {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 5px 12px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  color: var(--champagne);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.3s;
+}
+
+.dest-tile:hover .dest-tile__mood {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dest-tile__meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dest-tile__country {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.dest-tile__city {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 400;
+  color: white;
+  line-height: 1.1;
+}
+
+.dest-tile__arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  transform: translateX(-4px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.dest-tile:hover .dest-tile__arrow {
+  opacity: 1;
+  transform: translateX(0);
+  background: var(--emirates-red);
+  border-color: var(--emirates-red);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .destinations__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .destinations__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dest-tile--featured {
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .destinations__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dest-tile, .dest-tile--featured {
+    aspect-ratio: 4/3;
+  }
+}

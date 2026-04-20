@@ -1,0 +1,421 @@
+/* ============================================================
+   BOOKING PANEL
+   ============================================================ */
+.booking {
+  position: relative;
+  z-index: 20;
+  margin-top: -120px;
+  padding-bottom: 80px;
+}
+
+.booking__panel {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: visible;
+  border: 1px solid var(--border-color);
+}
+
+/* Tabs */
+.booking__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.booking__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.booking__tab {
+  flex-shrink: 0;
+  padding: 18px 24px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.booking__tab:hover {
+  color: var(--text-primary);
+}
+
+.booking__tab--active {
+  color: var(--emirates-red);
+  border-bottom-color: var(--emirates-red);
+}
+
+/* Body */
+.booking__body {
+  padding: 36px 0;
+}
+
+/* Options row */
+.booking__options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.booking__trip-types {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+}
+
+.booking__trip-btn {
+  padding: 8px 16px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  color: var(--text-muted);
+  transition: all 0.25s;
+}
+
+.booking__trip-btn--active {
+  background: var(--emirates-red);
+  color: white;
+}
+
+.booking__select {
+  padding: 10px 16px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.booking__select:focus {
+  border-color: var(--emirates-red);
+}
+
+/* Main form */
+.booking__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.booking__flight .booking__form {
+  grid-template-columns: 2fr 1fr 1fr auto;
+}
+
+.booking__route {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  grid-column: span 1;
+}
+
+.booking__dates {
+  display: flex;
+  gap: 12px;
+}
+
+.booking__dates .booking__field {
+  flex: 1;
+}
+
+/* Field */
+.booking__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.booking__field--route {
+  flex: 1;
+}
+
+.booking__label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.booking__input {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: all 0.25s;
+  outline: none;
+  cursor: text;
+}
+
+.booking__input:focus,
+.booking__input:hover {
+  border-color: var(--emirates-red);
+  box-shadow: 0 0 0 3px var(--emirates-red-glow);
+}
+
+input[type="date"].booking__input {
+  cursor: pointer;
+}
+
+/* Swap button */
+.booking__swap {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.booking__swap:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+  background: var(--emirates-red-glow);
+}
+
+.booking__swap--rotated {
+  transform: rotate(180deg);
+}
+
+/* Search button */
+.booking__search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: var(--emirates-red);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  align-self: end;
+}
+
+.booking__search-btn:hover {
+  background: var(--emirates-red-dark);
+  box-shadow: 0 6px 24px var(--emirates-red-glow);
+  transform: translateY(-1px);
+}
+
+/* PAX trigger */
+.booking__pax-trigger {
+  cursor: pointer;
+  text-align: left;
+}
+
+/* PAX dropdown */
+.pax-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 280px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  padding: 20px;
+  z-index: 100;
+}
+
+.pax-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.pax-row:last-of-type {
+  border-bottom: none;
+}
+
+.pax-label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pax-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.pax-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pax-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.pax-btn:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+}
+
+.pax-count {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.pax-done {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: var(--emirates-red);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.pax-done:hover {
+  background: var(--emirates-red-dark);
+}
+
+/* Popular routes */
+.booking__popular {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.booking__popular-routes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.booking__popular-route {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.booking__popular-route:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+}
+
+/* Manage tab */
+.booking__manage .booking__form {
+  grid-template-columns: 1fr 1fr auto;
+}
+
+/* Dark mode */
+.dark .booking__panel {
+  background: var(--bg-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .booking__panel {
+    padding: 0 24px;
+  }
+
+  .booking__flight .booking__form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .booking__route {
+    grid-column: span 2;
+  }
+
+  .booking__search-btn {
+    grid-column: span 2;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking {
+    margin-top: -60px;
+  }
+
+  .booking__panel {
+    border-radius: var(--radius-lg);
+    padding: 0 16px;
+  }
+
+  .booking__flight .booking__form,
+  .booking__manage .booking__form {
+    grid-template-columns: 1fr;
+  }
+
+  .booking__route {
+    grid-column: span 1;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking__swap {
+    align-self: center;
+    transform: rotate(90deg);
+  }
+}

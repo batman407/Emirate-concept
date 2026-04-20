@@ -1,0 +1,257 @@
+/* ============================================================
+   SKYWARDS / LOYALTY SECTION
+   ============================================================ */
+.skywards {
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.skywards__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.skywards__bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(215, 25, 33, 0.04) 0%,
+    transparent 60%,
+    rgba(201, 169, 110, 0.04) 100%
+  );
+}
+
+.skywards__bg-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(215, 25, 33, 0.025) 40px,
+    rgba(215, 25, 33, 0.025) 41px
+  );
+}
+
+.skywards__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Left */
+.skywards__left {
+  max-width: 520px;
+}
+
+.skywards__eyebrow {
+  color: var(--champagne);
+  margin-bottom: 12px;
+}
+
+.skywards__title {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.skywards__title em {
+  font-style: italic;
+  color: var(--emirates-red);
+}
+
+.skywards__desc {
+  color: var(--text-secondary);
+  margin-bottom: 36px;
+}
+
+.skywards__ctas {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 44px;
+  flex-wrap: wrap;
+}
+
+.skywards__join-btn {
+  background: linear-gradient(135deg, var(--emirates-red), #B01218);
+}
+
+/* Stats */
+.skywards__stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.skywards__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skywards__stat-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--emirates-red);
+  line-height: 1;
+}
+
+.skywards__stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Right — tiers */
+.skywards__right {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.skywards__tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Tier card */
+.tier-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.35s var(--ease-premium);
+  border-left: 3px solid var(--tier-color, #6B7280);
+}
+
+.tier-card--active {
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-md);
+  border-color: var(--tier-color, currentColor);
+}
+
+.tier-card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tier-card__icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--tier-color, #6B7280) 15%, transparent);
+  color: var(--tier-color, #6B7280);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.tier-card--active .tier-card__icon-wrap {
+  background: var(--tier-color, #6B7280);
+  color: white;
+}
+
+.tier-card__name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.tier-card__miles {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Benefits */
+.tier-card__benefits {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 4px;
+  overflow: hidden;
+}
+
+.tier-benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.tier-benefit__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tier-color, #6B7280);
+  flex-shrink: 0;
+}
+
+/* Progress visual */
+.skywards__progress-visual {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+}
+
+.skywards__progress-bar {
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.skywards__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--emirates-red), var(--champagne));
+  border-radius: 3px;
+  transition: width 1.5s var(--ease-premium);
+}
+
+.skywards__progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.skywards__progress-labels .label {
+  color: var(--text-muted);
+  font-size: 0.62rem;
+}
+
+.skywards__progress-note {
+  color: var(--text-secondary);
+}
+
+.skywards__progress-note strong {
+  color: var(--champagne);
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .skywards__container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .skywards__left {
+    max-width: 100%;
+  }
+}

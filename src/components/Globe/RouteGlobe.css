@@ -1,0 +1,385 @@
+/* ============================================================
+   ROUTE GLOBE / MAP SECTION
+   ============================================================ */
+.globe-section {
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.globe-section__header {
+  max-width: 600px;
+  margin-bottom: 52px;
+}
+
+.globe-section__eyebrow {
+  color: var(--emirates-red);
+  margin-bottom: 12px;
+}
+
+.globe-section__title {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.globe-section__title em {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.globe-section__sub {
+  color: var(--text-secondary);
+}
+
+/* Wrapper */
+.globe-wrapper {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* Map container */
+.globe-map {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: #0a121e;
+  aspect-ratio: 4/3;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(201, 169, 110, 0.08);
+}
+
+/* Real map background image */
+.globe-map__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  mix-blend-mode: luminosity;
+  filter: saturate(0.6) brightness(0.7);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric tint over map */
+.globe-map__tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(5, 10, 30, 0.72) 0%,
+    rgba(5, 5, 20, 0.40) 50%,
+    rgba(10, 5, 25, 0.65) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Map legend */
+.globe-map__legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  z-index: 10;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.globe-map__legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.globe-map__legend-dot.hub {
+  background: var(--champagne);
+  box-shadow: 0 0 6px rgba(201,169,110,0.8);
+}
+
+.globe-map__legend-dot.dest {
+  background: var(--emirates-red);
+  box-shadow: 0 0 6px rgba(215,25,33,0.6);
+}
+
+/* Grid overlay */
+.globe-map__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 10% 12.5%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* SVG route lines */
+.globe-map__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* City nodes */
+.city-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.city-node__dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(215, 25, 33, 0.85);
+  transition: all 0.3s;
+  box-shadow: 0 0 8px rgba(215, 25, 33, 0.5);
+}
+
+.city-node--hub .city-node__dot {
+  width: 12px;
+  height: 12px;
+  background: var(--champagne);
+  box-shadow: 0 0 12px rgba(201, 169, 110, 0.6);
+}
+
+.city-node__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(215, 25, 33, 0.35);
+  animation: pulse-glow 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.city-node--hub .city-node__ring {
+  border-color: rgba(201, 169, 110, 0.4);
+  width: 26px;
+  height: 26px;
+}
+
+.city-node:hover .city-node__dot,
+.city-node--selected .city-node__dot {
+  background: var(--champagne);
+  transform: scale(1.5);
+  box-shadow: 0 0 16px rgba(201, 169, 110, 0.8);
+}
+
+.city-node__label {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+  transition: color 0.2s;
+  pointer-events: none;
+}
+
+.city-node:hover .city-node__label,
+.city-node--selected .city-node__label {
+  color: var(--champagne);
+}
+
+/* Destination Card */
+.dest-card {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.dest-card__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.dest-card__close:hover {
+  background: var(--emirates-red);
+}
+
+.dest-card__img-wrap {
+  position: relative;
+  height: 180px;
+}
+
+.dest-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dest-card__img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.dest-card__route-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: white;
+}
+
+.dest-card__route-arrow {
+  color: var(--champagne);
+}
+
+.dest-card__body {
+  padding: 20px;
+}
+
+.dest-card__mood {
+  color: var(--emirates-red);
+  margin-bottom: 12px;
+}
+
+.dest-card__title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dest-card__pin {
+  color: var(--emirates-red);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.dest-card__city {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.dest-card__country {
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.dest-card__copy {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.dest-card__cta {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.78rem;
+}
+
+/* City pills */
+.globe-cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.globe-city-pill {
+  padding: 8px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.25s;
+}
+
+.globe-city-pill:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+}
+
+.globe-city-pill--active {
+  background: var(--emirates-red);
+  border-color: var(--emirates-red);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .globe-wrapper {
+    flex-direction: column;
+  }
+
+  .dest-card {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .globe-map {
+    aspect-ratio: 1;
+  }
+
+  .city-node__label {
+    display: none;
+  }
+}
