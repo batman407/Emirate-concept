@@ -1,0 +1,848 @@
+/* ============================================================
+   DASHBOARD STYLES — Premium Emirates User Dashboard
+   ============================================================ */
+
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  background: var(--bg-primary);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.dash-sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: transform 0.35s var(--ease-premium);
+}
+
+.dash-sidebar__header {
+  padding: 28px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dash-sidebar__logo {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.dash-sidebar__profile {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dash-sidebar__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--emirates-red), var(--emirates-red-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 14px;
+  position: relative;
+  box-shadow: 0 4px 20px var(--emirates-red-glow);
+}
+
+.dash-sidebar__avatar-badge {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--champagne);
+  border: 3px solid var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-sidebar__avatar-badge svg {
+  width: 10px;
+  height: 10px;
+  color: #1a1a1a;
+}
+
+.dash-sidebar__user-name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.dash-sidebar__user-email {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+
+.dash-sidebar__tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dash-sidebar__tier--blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.dash-sidebar__tier--silver {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.dash-sidebar__tier--gold {
+  background: rgba(201, 169, 110, 0.12);
+  color: var(--champagne);
+  border: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+.dash-sidebar__tier--platinum {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* Sidebar Navigation */
+.dash-sidebar__nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.dash-sidebar__nav-label {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+
+.dash-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-premium);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dash-nav-item:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.dash-nav-item--active {
+  background: rgba(215, 25, 33, 0.08);
+  color: var(--emirates-red);
+  font-weight: 600;
+}
+
+.dash-nav-item--active:hover {
+  background: rgba(215, 25, 33, 0.12);
+}
+
+.dash-nav-item__badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--emirates-red);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+/* Sidebar Footer */
+.dash-sidebar__footer {
+  padding: 16px 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.dash-signout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-premium);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dash-signout:hover {
+  background: rgba(215, 25, 33, 0.06);
+  color: var(--emirates-red);
+}
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
+.dash-main {
+  flex: 1;
+  margin-left: 280px;
+  min-height: 100vh;
+}
+
+/* Top Bar */
+.dash-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.dash-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-topbar__hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.dash-topbar__greeting {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.dash-topbar__greeting span {
+  color: var(--champagne);
+}
+
+.dash-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-topbar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-premium);
+  position: relative;
+}
+
+.dash-topbar__btn:hover {
+  border-color: var(--emirates-red);
+  color: var(--emirates-red);
+}
+
+.dash-topbar__notif-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emirates-red);
+  border: 2px solid var(--bg-primary);
+}
+
+/* Content Area */
+.dash-content {
+  padding: 32px 40px;
+}
+
+/* ============================================================
+   DASHBOARD CARDS / GRID
+   ============================================================ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.dash-stat-card {
+  padding: 28px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: all 0.3s var(--ease-premium);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emirates-red), var(--champagne));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dash-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.dash-stat-card:hover::before {
+  opacity: 1;
+}
+
+.dash-stat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dash-stat-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-stat-card__icon--red {
+  background: rgba(215, 25, 33, 0.08);
+  color: var(--emirates-red);
+}
+
+.dash-stat-card__icon--gold {
+  background: rgba(201, 169, 110, 0.12);
+  color: var(--champagne);
+}
+
+.dash-stat-card__icon--blue {
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+}
+
+.dash-stat-card__icon--green {
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+}
+
+.dash-stat-card__change {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.dash-stat-card__change--up {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.dash-stat-card__value {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.dash-stat-card__label {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   CONTENT SECTIONS
+   ============================================================ */
+.dash-section {
+  margin-bottom: 32px;
+}
+
+.dash-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.dash-section__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dash-section__action {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--emirates-red);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.3s ease;
+}
+
+.dash-section__action:hover {
+  opacity: 0.7;
+}
+
+/* ============================================================
+   TIER PROGRESS
+   ============================================================ */
+.dash-tier-card {
+  padding: 28px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+}
+
+.dash-tier__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dash-tier__current {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dash-tier__next {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.dash-tier__next span {
+  color: var(--champagne);
+  font-weight: 600;
+}
+
+.dash-tier__bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.dash-tier__fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--emirates-red), var(--champagne));
+  transition: width 1s var(--ease-premium);
+  position: relative;
+}
+
+.dash-tier__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  border-radius: 0 4px 4px 0;
+}
+
+.dash-tier__miles-text {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.dash-tier__miles-text span {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ============================================================
+   QUICK ACTIONS
+   ============================================================ */
+.dash-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.dash-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-premium);
+  text-align: center;
+}
+
+.dash-action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--emirates-red);
+}
+
+.dash-action-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(215, 25, 33, 0.06);
+  color: var(--emirates-red);
+  transition: all 0.3s ease;
+}
+
+.dash-action-card:hover .dash-action-card__icon {
+  background: var(--emirates-red);
+  color: white;
+  box-shadow: 0 4px 16px var(--emirates-red-glow);
+}
+
+.dash-action-card__label {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dash-action-card__desc {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   BOOKINGS TABLE
+   ============================================================ */
+.dash-bookings {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.dash-booking-row {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  gap: 20px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.25s ease;
+}
+
+.dash-booking-row:last-child {
+  border-bottom: none;
+}
+
+.dash-booking-row:hover {
+  background: var(--bg-tertiary);
+}
+
+.dash-booking__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(215, 25, 33, 0.06);
+  color: var(--emirates-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dash-booking__route {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-booking__cities {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-booking__cities svg {
+  color: var(--champagne);
+  flex-shrink: 0;
+}
+
+.dash-booking__meta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dash-booking__status {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.dash-booking__status--confirmed {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.dash-booking__status--pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.dash-booking__status--completed {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.dash-booking__class {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--champagne);
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 80px;
+}
+
+/* ============================================================
+   ACTIVITY FEED
+   ============================================================ */
+.dash-activity {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.dash-activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dash-activity-item:last-child {
+  border-bottom: none;
+}
+
+.dash-activity__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.dash-activity__dot--red { background: var(--emirates-red); }
+.dash-activity__dot--gold { background: var(--champagne); }
+.dash-activity__dot--blue { background: #3b82f6; }
+.dash-activity__dot--green { background: #22c55e; }
+
+.dash-activity__text {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.dash-activity__text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.dash-activity__time {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   MOBILE SIDEBAR OVERLAY
+   ============================================================ */
+.dash-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .dash-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .dash-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .dash-sidebar-overlay--visible {
+    display: block;
+  }
+
+  .dash-main {
+    margin-left: 0;
+  }
+
+  .dash-topbar__hamburger {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .dash-topbar {
+    padding: 16px 20px;
+  }
+
+  .dash-content {
+    padding: 20px 20px;
+  }
+
+  .dash-topbar__greeting {
+    font-size: 1.2rem;
+  }
+
+  .dash-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .dash-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dash-booking-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .dash-booking__class {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-actions-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .dash-booking__status {
+    font-size: 0.6rem;
+    padding: 4px 10px;
+  }
+}

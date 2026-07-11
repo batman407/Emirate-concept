@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Globe, Heart, Menu, X, ChevronDown, Moon, Sun, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Globe, Heart, Menu, X, ChevronDown, Moon, Sun, User, LogOut } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 const navData = {
@@ -73,12 +75,37 @@ const navData = {
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
   const navRef = useRef(null);
   const closeTimer = useRef(null);
+
+  const userInitials = (() => {
+    if (!user) return null;
+    const first = user?.user_metadata?.first_name || '';
+    const last = user?.user_metadata?.last_name || '';
+    if (first && last) return `${first[0]}${last[0]}`.toUpperCase();
+    if (first) return first[0].toUpperCase();
+    return (user?.email?.[0] || 'U').toUpperCase();
+  })();
+
+  const handleUserClick = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setMobileOpen(false);
+    navigate('/');
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -206,8 +233,25 @@ export default function Navbar() {
           <button className="navbar__util-btn" aria-label="Search">
             <Search size={18} />
           </button>
-          <button className="navbar__util-btn" aria-label="My profile">
-            <User size={18} />
+          <button
+            className="navbar__util-btn"
+            aria-label={user ? 'Go to dashboard' : 'Sign in'}
+            onClick={handleUserClick}
+            style={user ? {
+              background: 'var(--emirates-red)',
+              color: 'white',
+              borderRadius: '50%',
+              width: '32px',
+              height: '32px',
+              fontSize: '0.7rem',
+              fontWeight: '700',
+              fontFamily: 'var(--font-heading)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            } : {}}
+          >
+            {user ? userInitials : <User size={18} />}
           </button>
           <button
             className="navbar__mobile-toggle"
@@ -294,6 +338,35 @@ export default function Navbar() {
                   {isDark ? <Sun size={16} /> : <Moon size={16} />}
                   {isDark ? 'Day Mode' : 'Night Experience'}
                 </button>
+                {user ? (
+                  <>
+                    <button
+                      className="mobile-night-toggle"
+                      onClick={() => { navigate('/dashboard'); setMobileOpen(false); }}
+                      style={{ marginTop: 8 }}
+                    >
+                      <User size={16} />
+                      My Dashboard
+                    </button>
+                    <button
+                      className="mobile-night-toggle"
+                      onClick={handleSignOut}
+                      style={{ marginTop: 8, color: 'var(--emirates-red)' }}
+                    >
+                      <LogOut size={16} />
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="mobile-night-toggle"
+                    onClick={() => { navigate('/login'); setMobileOpen(false); }}
+                    style={{ marginTop: 8 }}
+                  >
+                    <User size={16} />
+                    Sign In
+                  </button>
+                )}
               </div>
             </motion.div>
           </>
