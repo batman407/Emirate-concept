@@ -3,22 +3,17 @@
    ============================================================ */
 .brand-story {
   position: relative;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+  width: 100%;
 }
 
-/* Sticky viewport */
-.brand-story__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
+.brand-story__container {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-}
-
-/* Spacer — creates scroll travel */
-.brand-story__spacer {
-  position: relative;
-  pointer-events: none;
 }
 
 /* Background */

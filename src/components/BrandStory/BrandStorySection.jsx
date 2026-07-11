@@ -61,22 +61,13 @@ export default function BrandStorySection() {
   const [activeScene, setActiveScene] = useState(0);
   const [isVoiceOverActive, setIsVoiceOverActive] = useState(false);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
-
-  // Map scroll progress to scene index
+  // Auto-play slideshow instead of scroll pinning
   useEffect(() => {
-    const unsub = scrollYProgress.on('change', val => {
-      const idx = Math.min(
-        storyBeats.length - 1,
-        Math.floor(val * storyBeats.length)
-      );
-      setActiveScene(idx);
-    });
-    return unsub;
-  }, [scrollYProgress]);
+    const timer = setInterval(() => {
+      setActiveScene(prev => (prev + 1) % storyBeats.length);
+    }, 5000); // 5 seconds per slide
+    return () => clearInterval(timer);
+  }, []);
 
   const scene = storyBeats[activeScene];
 
@@ -114,8 +105,7 @@ export default function BrandStorySection() {
 
   return (
     <section className="brand-story" id="brand-story" ref={containerRef}>
-      {/* Sticky viewport */}
-      <div className="brand-story__sticky">
+      <div className="brand-story__container">
         {/* Background images — cross-fade on scene change */}
         <div className="brand-story__bg">
           {storyBeats.map((beat, i) => (
@@ -193,12 +183,7 @@ export default function BrandStorySection() {
               key={i}
               className={`brand-story__progress-dot ${i === activeScene ? 'brand-story__progress-dot--active' : i < activeScene ? 'brand-story__progress-dot--done' : ''}`}
               aria-label={`Scene ${i + 1}`}
-              onClick={() => {
-                const target = containerRef.current;
-                const totalScroll = target.scrollHeight - window.innerHeight;
-                const pos = (i / storyBeats.length) * totalScroll + target.offsetTop;
-                window.scrollTo({ top: pos, behavior: 'smooth' });
-              }}
+              onClick={() => setActiveScene(i)}
             />
           ))}
         </div>
@@ -215,13 +200,6 @@ export default function BrandStorySection() {
           />
         </svg>
       </div>
-
-      {/* Scroll spacer — one viewport per scene */}
-      <div
-        className="brand-story__spacer"
-        style={{ height: `${storyBeats.length * 100}vh` }}
-        aria-hidden="true"
-      />
     </section>
   );
 }
