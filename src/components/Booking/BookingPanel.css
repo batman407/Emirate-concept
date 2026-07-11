@@ -414,6 +414,10 @@ input[type="date"].booking__input {
     align-items: stretch;
   }
 
+  .booking__search-btn {
+    grid-column: span 1;
+  }
+
   .booking__swap {
     align-self: center;
     transform: rotate(90deg);
