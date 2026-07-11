@@ -42,7 +42,7 @@ const experiences = [
     label: 'Economy Class',
     title: 'Comfort That Connects the World',
     description: 'Thoughtful seating, world-class entertainment, and a warm Emirates welcome.',
-    image: 'https://images.unsplash.com/photo-1529029066700-50dd20a21f0e?w=700&q=85',
+    image: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=700&q=85',
     tag: 'Cabin Class'
   }
 ];
