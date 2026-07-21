@@ -1,0 +1,59 @@
+/* ============================================================
+   ANIMATED ROUTES — Theme-Aware Styling
+   ============================================================ */
+
+/* Route paths */
+.animated-route-path {
+  fill: none;
+  pointer-events: none;
+  will-change: stroke-dashoffset;
+}
+
+/* Plane icon group */
+.animated-plane {
+  will-change: transform;
+  pointer-events: none;
+}
+
+.animated-plane__body {
+  transition: fill 0.6s ease;
+}
+
+/* Plane trail */
+.animated-plane-trail {
+  fill: none;
+  pointer-events: none;
+  will-change: stroke-dashoffset;
+}
+
+/* ---- DAY MODE (default) ---- */
+.animated-route-path {
+  stroke-linecap: round;
+}
+
+.animated-plane__body {
+  fill: #d71920;
+}
+
+.animated-plane-trail {
+  stroke-linecap: round;
+}
+
+/* ---- NIGHT MODE ---- */
+.dark .animated-plane__body {
+  fill: #ff3b3b;
+}
+
+/* Destination activation glow ring */
+.city-node__activation-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+}

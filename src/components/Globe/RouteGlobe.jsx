@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, MapPin } from 'lucide-react';
+import AnimatedRoutes from './AnimatedRoutes';
 import './RouteGlobe.css';
 
 // City data with approximate x/y positions on a simplified world map (0–100 range)
@@ -33,6 +34,12 @@ export default function RouteGlobe() {
   const [selected, setSelected] = useState(null);
   const [hoveredCity, setHoveredCity] = useState(null);
   const [animPhase, setAnimPhase] = useState(0);
+  const cityNodeRefs = useRef({});
+
+  // Callback ref setter for city node dots
+  const setCityNodeRef = useCallback((id, el) => {
+    if (el) cityNodeRefs.current[id] = el;
+  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -78,41 +85,37 @@ export default function RouteGlobe() {
             {/* Atmospheric dark tint */}
             <div className="globe-map__tint" />
 
-            {/* SVG curved route lines */}
+            {/* SVG animated route lines — GSAP-powered */}
             <svg className="globe-map__svg" viewBox="0 0 100 75" preserveAspectRatio="xMidYMid meet">
-              <defs>
-                <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="0.5" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
+              <AnimatedRoutes
+                cities={cities}
+                hub={DUBAI}
+                animPhase={animPhase}
+                cityNodeRefs={cityNodeRefs}
+              />
 
-              {cities.filter(c => !c.hub).map((city, i) => {
+              {/* Interactive hover/select route highlight (kept for interactivity) */}
+              {cities.filter(c => !c.hub).map((city) => {
                 const mx = (DUBAI.x + city.x) / 2;
                 const my = (DUBAI.y + city.y) / 2 - 12;
                 const isActive = hoveredCity === city.id || selected?.id === city.id;
                 const arcPath = `M${DUBAI.x},${DUBAI.y} Q${mx},${my} ${city.x},${city.y}`;
                 return (
-                  <g key={city.id}>
-                    <motion.path
-                      d={arcPath}
-                      stroke={isActive ? '#C9A96E' : 'rgba(215,25,33,0.55)'}
-                      strokeWidth={isActive ? '0.55' : '0.28'}
-                      fill="none"
-                      filter="url(#routeGlow)"
-                      strokeDasharray="1.2 1.8"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={animPhase === 1 ? { pathLength: 1, opacity: 1 } : {}}
-                      transition={{ duration: 1.8, delay: 0.2 + i * 0.12, ease: 'easeOut' }}
-                    />
-                    {/* Animated travelling dot on hover/select */}
+                  <g key={`hover-${city.id}`}>
                     {isActive && (
-                      <motion.circle r="0.9" fill="#C9A96E" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <animateMotion dur="2.5s" repeatCount="indefinite" path={arcPath} />
-                      </motion.circle>
+                      <>
+                        <path
+                          d={arcPath}
+                          stroke="#C9A96E"
+                          strokeWidth="0.55"
+                          fill="none"
+                          opacity="0.7"
+                          strokeLinecap="round"
+                        />
+                        <circle r="0.9" fill="#C9A96E" opacity="0.9">
+                          <animateMotion dur="2.5s" repeatCount="indefinite" path={arcPath} />
+                        </circle>
+                      </>
                     )}
                   </g>
                 );
@@ -133,7 +136,10 @@ export default function RouteGlobe() {
                 onMouseLeave={() => setHoveredCity(null)}
                 aria-label={`${city.name}, ${city.country}`}
               >
-                <span className="city-node__dot" />
+                <span
+                  className="city-node__dot"
+                  ref={(el) => setCityNodeRef(city.id, el)}
+                />
                 <span className="city-node__ring" />
                 <span className="city-node__label">{city.name}</span>
               </motion.button>
