@@ -130,7 +130,13 @@ function ExperienceCardInner({ exp }) {
   return (
     <>
       <div className="exp-card__media">
-        <img src={exp.image} alt={exp.title} className="exp-card__img" loading="lazy" />
+        <img
+          src={exp.image}
+          alt={exp.title}
+          className="exp-card__img"
+          loading="lazy"
+          onError={(e) => { e.target.style.display = 'none'; }}
+        />
         <div className="exp-card__overlay" />
       </div>
       <div className="exp-card__content">

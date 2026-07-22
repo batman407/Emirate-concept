@@ -44,7 +44,9 @@
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 3/4;
-  transition: transform 0.5s var(--ease-premium), box-shadow 0.5s;
+  background: linear-gradient(145deg, #181818 0%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.5s var(--ease-premium), box-shadow 0.5s, border-color 0.5s;
 }
 
 .exp-card--featured {
