@@ -118,14 +118,12 @@ export default function BrandStorySection() {
           <div className="brand-story__overlay" />
         </div>
 
-        {/* Voiceover cinematic toggle */}
         <button 
           className="brand-story__voice-btn glass-card"
           onClick={() => setIsVoiceOverActive(!isVoiceOverActive)}
           aria-label={isVoiceOverActive ? "Disable Cinematic Voiceover" : "Enable Cinematic Voiceover"}
         >
           {isVoiceOverActive ? <Volume2 size={18} /> : <VolumeX size={18} />}
-          <span>{isVoiceOverActive ? "Voiceover On" : "Cinematic Voiceover"}</span>
         </button>
 
         {/* Content - changes per scene */}
