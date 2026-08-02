@@ -165,17 +165,15 @@ export default function BrandStorySection() {
           <div className="brand-story__overlay" />
         </div>
 
-        {/* Top Controls Bar: Voiceover toggle + Status indicator */}
+        {/* Top Controls Bar: Voiceover toggle */}
         <div className="brand-story__top-controls">
           <button 
             className={`brand-story__voice-btn glass-card ${isVoiceOverActive ? 'brand-story__voice-btn--active' : ''}`}
             onClick={() => setIsVoiceOverActive(!isVoiceOverActive)}
-            aria-label={isVoiceOverActive ? "Disable Cinematic Voiceover" : "Enable Cinematic Voiceover"}
+            aria-label={isVoiceOverActive ? "Disable Voiceover" : "Enable Voiceover"}
+            title={isVoiceOverActive ? "Voiceover ON" : "Voiceover OFF"}
           >
             {isVoiceOverActive ? <Volume2 size={18} /> : <VolumeX size={18} />}
-            <span className="brand-story__voice-label">
-              {isVoiceOverActive ? "Voiceover ON" : "Voiceover OFF"}
-            </span>
           </button>
         </div>
 
