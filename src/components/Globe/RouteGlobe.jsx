@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, MapPin } from 'lucide-react';
 import AnimatedRoutes from './AnimatedRoutes';
+import WorldMapBg from './WorldMapBg';
 import './RouteGlobe.css';
 
 // City data with approximate x/y positions on a simplified world map (0–100 range)
@@ -75,18 +76,20 @@ export default function RouteGlobe() {
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            {/* Real satellite world map via ArcGIS */}
+            {/* Real satellite world map backdrop */}
             <img
-              src="https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/export?bbox=-180,-90,180,90&bboxSR=4326&size=1400,1050&imageSR=4326&format=png&f=image"
-              alt="World Map"
+              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80"
+              alt="World Map Grid"
               className="globe-map__bg"
               onError={(e) => { e.target.style.display = 'none'; }}
             />
             {/* Atmospheric dark tint */}
             <div className="globe-map__tint" />
 
-            {/* SVG animated route lines — GSAP-powered */}
+            {/* SVG animated route lines + vector world map background — GSAP-powered */}
             <svg className="globe-map__svg" viewBox="0 0 100 75" preserveAspectRatio="xMidYMid meet">
+              <WorldMapBg />
+
               <AnimatedRoutes
                 cities={cities}
                 hub={DUBAI}

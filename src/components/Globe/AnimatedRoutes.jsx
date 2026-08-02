@@ -25,9 +25,6 @@ const THEME = {
     planeGlow: 'rgba(215, 25, 33, 0.4)',
     pulseColor: 'rgba(215, 25, 33, 0.6)',
     pulseHighlight: 'rgba(255, 120, 50, 0.3)',
-    audioFreq: 800,
-    audioType: 'sine',
-    audioDuration: 0.15,
   },
   night: {
     routeGradientStart: '#d71920',
@@ -43,82 +40,8 @@ const THEME = {
     planeGlow: 'rgba(255, 59, 59, 0.6)',
     pulseColor: 'rgba(215, 25, 33, 0.8)',
     pulseHighlight: 'rgba(255, 80, 80, 0.5)',
-    audioFreq: 500,
-    audioType: 'sine',
-    audioDuration: 0.22,
   },
 };
-
-/* ----------------------------------------------------------------
-   AUDIO ENGINE — Web Audio API procedural chime
-   ---------------------------------------------------------------- */
-class ChimeAudio {
-  constructor() {
-    this.ctx = null;
-    this.initialized = false;
-  }
-
-  init() {
-    if (this.initialized) return;
-    try {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      this.initialized = true;
-    } catch {
-      // Web Audio API not supported — fail silently
-    }
-  }
-
-  play(freq = 700, duration = 0.15, volume = 0.25) {
-    if (!this.ctx) return;
-
-    // Resume context if suspended (autoplay policy)
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-
-    const now = this.ctx.currentTime;
-
-    // Oscillator — clean sine tone
-    const osc = this.ctx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, now);
-    // Slight pitch bend down for elegance
-    osc.frequency.exponentialRampToValueAtTime(freq * 0.85, now + duration);
-
-    // Gain envelope — quick attack, smooth decay
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(volume, now + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-    // Second harmonic for richness (very subtle)
-    const osc2 = this.ctx.createOscillator();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(freq * 2, now);
-    osc2.frequency.exponentialRampToValueAtTime(freq * 1.7, now + duration);
-
-    const gain2 = this.ctx.createGain();
-    gain2.gain.setValueAtTime(0, now);
-    gain2.gain.linearRampToValueAtTime(volume * 0.15, now + 0.01);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-    osc.connect(gain).connect(this.ctx.destination);
-    osc2.connect(gain2).connect(this.ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + duration + 0.05);
-    osc2.start(now);
-    osc2.stop(now + duration + 0.05);
-  }
-
-  destroy() {
-    if (this.ctx) {
-      this.ctx.close().catch(() => {});
-      this.ctx = null;
-      this.initialized = false;
-    }
-  }
-}
 
 /* ----------------------------------------------------------------
    COMPONENT
@@ -127,7 +50,6 @@ export default function AnimatedRoutes({ cities, hub, animPhase, cityNodeRefs })
   const { isDark } = useTheme();
   const svgRef = useRef(null);
   const timelineRef = useRef(null);
-  const chimeRef = useRef(null);
   const themeRef = useRef(isDark ? 'night' : 'day');
 
   // Keep theme ref in sync without re-building timeline
@@ -139,33 +61,6 @@ export default function AnimatedRoutes({ cities, hub, animPhase, cityNodeRefs })
 
   // Sort destinations left-to-right by x-coordinate for stagger order
   const destinations = [...cities.filter((c) => !c.hub)].sort((a, b) => a.x - b.x);
-
-  // Initialize audio on first user interaction
-  const initAudio = useCallback(() => {
-    if (chimeRef.current && !chimeRef.current.initialized) {
-      chimeRef.current.init();
-    }
-  }, []);
-
-  useEffect(() => {
-    // Create chime engine
-    chimeRef.current = new ChimeAudio();
-
-    // Listen for user interaction to unlock audio
-    const events = ['click', 'touchstart', 'keydown'];
-    const handler = () => {
-      initAudio();
-      events.forEach((e) => document.removeEventListener(e, handler));
-    };
-    events.forEach((e) => document.addEventListener(e, handler, { once: false, passive: true }));
-
-    return () => {
-      events.forEach((e) => document.removeEventListener(e, handler));
-      if (chimeRef.current) {
-        chimeRef.current.destroy();
-      }
-    };
-  }, [initAudio]);
 
   // Build & run GSAP timeline when animPhase === 1
   useEffect(() => {
@@ -265,15 +160,6 @@ export default function AnimatedRoutes({ cities, hub, animPhase, cityNodeRefs })
           onComplete: () => {
             // ---- Destination activation ----
             const currentTheme = THEME[themeRef.current];
-
-            // Play chime
-            if (chimeRef.current && chimeRef.current.initialized) {
-              chimeRef.current.play(
-                currentTheme.audioFreq,
-                currentTheme.audioDuration,
-                0.25
-              );
-            }
 
             // Pulse the city marker via DOM ref
             const markerDot = cityNodeRefs?.current?.[city.id];

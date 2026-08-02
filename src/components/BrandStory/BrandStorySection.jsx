@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { Volume2, VolumeX } from 'lucide-react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Volume2, VolumeX, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import './BrandStorySection.css';
 
 const storyBeats = [
@@ -60,18 +60,20 @@ export default function BrandStorySection() {
   const containerRef = useRef(null);
   const [activeScene, setActiveScene] = useState(0);
   const [isVoiceOverActive, setIsVoiceOverActive] = useState(false);
-
-  // Auto-play slideshow instead of scroll pinning
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveScene(prev => (prev + 1) % storyBeats.length);
-    }, 5000); // 5 seconds per slide
-    return () => clearInterval(timer);
-  }, []);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   const scene = storyBeats[activeScene];
 
-  // Voiceover effect using Web Speech API
+  const handleNext = useCallback(() => {
+    setActiveScene((prev) => (prev + 1) % storyBeats.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setActiveScene((prev) => (prev - 1 + storyBeats.length) % storyBeats.length);
+  }, []);
+
+  // Handle Speech Synthesis Voiceover
   useEffect(() => {
     if (!isVoiceOverActive || !window.speechSynthesis) {
       window.speechSynthesis?.cancel();
@@ -79,32 +81,77 @@ export default function BrandStorySection() {
     }
 
     window.speechSynthesis.cancel();
-    
-    // Slight delay to synchronize with text animation
+
+    let isSubscribed = true;
+    let fallbackTimer = null;
+    let transitionTimer = null;
+
     const timeoutMsg = setTimeout(() => {
+      if (!isSubscribed) return;
+
       const msg = new SpeechSynthesisUtterance(scene.body);
-      
-      // Attempt to set a premium-sounding English voice, ideally British
+
+      // Attempt to pick a premium-sounding English voice
       const voices = window.speechSynthesis.getVoices();
-      const ukVoice = voices.find(v => v.lang.includes('en-GB') || v.name.includes('UK'));
+      const ukVoice = voices.find(
+        (v) => v.lang.includes('en-GB') || v.name.includes('UK') || v.name.includes('Natural')
+      );
       if (ukVoice) {
         msg.voice = ukVoice;
       }
-      
-      msg.rate = 0.85; // Slow, cinematic pace
-      msg.pitch = 0.95; // Slightly deeper, calming tone
-      
+
+      msg.rate = 0.88; // Natural, cinematic pace
+      msg.pitch = 0.95;
+
+      // When voiceover FINISHES speaking, auto-advance to next slide after 1.2s pause
+      msg.onend = () => {
+        if (!isSubscribed) return;
+        if (isPlaying && !isHovered) {
+          transitionTimer = setTimeout(() => {
+            handleNext();
+          }, 1200);
+        }
+      };
+
+      msg.onerror = () => {
+        if (!isSubscribed) return;
+        if (isPlaying && !isHovered) {
+          fallbackTimer = setTimeout(handleNext, 8000);
+        }
+      };
+
       window.speechSynthesis.speak(msg);
-    }, 400);
+    }, 300);
 
     return () => {
+      isSubscribed = false;
       clearTimeout(timeoutMsg);
+      clearTimeout(fallbackTimer);
+      clearTimeout(transitionTimer);
       window.speechSynthesis?.cancel();
     };
-  }, [activeScene, isVoiceOverActive, scene.body]);
+  }, [activeScene, isVoiceOverActive, isPlaying, isHovered, scene.body, handleNext]);
+
+  // Standard Auto-play slideshow (when Voiceover is OFF)
+  useEffect(() => {
+    if (isVoiceOverActive || !isPlaying || isHovered) return;
+
+    // 8 seconds per slide when Voiceover is off so users have ample time to read
+    const timer = setInterval(() => {
+      handleNext();
+    }, 8000);
+
+    return () => clearInterval(timer);
+  }, [isVoiceOverActive, isPlaying, isHovered, handleNext]);
 
   return (
-    <section className="brand-story" id="brand-story" ref={containerRef}>
+    <section 
+      className="brand-story" 
+      id="brand-story" 
+      ref={containerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="brand-story__container">
         {/* Background images — cross-fade on scene change */}
         <div className="brand-story__bg">
@@ -118,13 +165,19 @@ export default function BrandStorySection() {
           <div className="brand-story__overlay" />
         </div>
 
-        <button 
-          className="brand-story__voice-btn glass-card"
-          onClick={() => setIsVoiceOverActive(!isVoiceOverActive)}
-          aria-label={isVoiceOverActive ? "Disable Cinematic Voiceover" : "Enable Cinematic Voiceover"}
-        >
-          {isVoiceOverActive ? <Volume2 size={18} /> : <VolumeX size={18} />}
-        </button>
+        {/* Top Controls Bar: Voiceover toggle + Status indicator */}
+        <div className="brand-story__top-controls">
+          <button 
+            className={`brand-story__voice-btn glass-card ${isVoiceOverActive ? 'brand-story__voice-btn--active' : ''}`}
+            onClick={() => setIsVoiceOverActive(!isVoiceOverActive)}
+            aria-label={isVoiceOverActive ? "Disable Cinematic Voiceover" : "Enable Cinematic Voiceover"}
+          >
+            {isVoiceOverActive ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            <span className="brand-story__voice-label">
+              {isVoiceOverActive ? "Voiceover ON" : "Voiceover OFF"}
+            </span>
+          </button>
+        </div>
 
         {/* Content - changes per scene */}
         <div className="brand-story__content container">
@@ -142,9 +195,9 @@ export default function BrandStorySection() {
             <motion.h2
               key={`headline-${activeScene}`}
               className="display-lg brand-story__headline"
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               {scene.headline}
             </motion.h2>
@@ -152,9 +205,9 @@ export default function BrandStorySection() {
             <motion.p
               key={`body-${activeScene}`}
               className="body-lg brand-story__body"
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
             >
               {scene.body}
             </motion.p>
@@ -164,7 +217,7 @@ export default function BrandStorySection() {
                 className="brand-story__logo-reveal"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, delay: 0.4 }}
+                transition={{ duration: 1.0, delay: 0.3 }}
               >
                 <div className="brand-story__logo-reveal">
                   <img src="/emirates-logo.svg" alt="Emirates Main Logo" style={{ height: '60px', width: 'auto' }} />
@@ -174,16 +227,53 @@ export default function BrandStorySection() {
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="brand-story__progress">
-          {storyBeats.map((_, i) => (
-            <button
-              key={i}
-              className={`brand-story__progress-dot ${i === activeScene ? 'brand-story__progress-dot--active' : i < activeScene ? 'brand-story__progress-dot--done' : ''}`}
-              aria-label={`Scene ${i + 1}`}
-              onClick={() => setActiveScene(i)}
-            />
-          ))}
+        {/* Navigation & Controls panel (Prev / Play-Pause / Next & Dots) */}
+        <div className="brand-story__nav-panel glass-card">
+          {/* Quick Prev / Next Arrow Buttons */}
+          <div className="brand-story__nav-arrows">
+            <button 
+              className="brand-story__nav-btn" 
+              onClick={handlePrev}
+              aria-label="Previous Slide"
+              title="Previous Slide"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <button 
+              className="brand-story__nav-btn" 
+              onClick={() => setIsPlaying(!isPlaying)}
+              aria-label={isPlaying ? "Pause Slideshow" : "Play Slideshow"}
+              title={isPlaying ? "Pause Slideshow" : "Play Slideshow"}
+            >
+              {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+            </button>
+
+            <button 
+              className="brand-story__nav-btn" 
+              onClick={handleNext}
+              aria-label="Next Slide"
+              title="Next Slide"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="brand-story__nav-divider" />
+
+          {/* Slide Dots */}
+          <div className="brand-story__progress">
+            {storyBeats.map((beat, i) => (
+              <button
+                key={beat.id}
+                className={`brand-story__progress-dot ${i === activeScene ? 'brand-story__progress-dot--active' : i < activeScene ? 'brand-story__progress-dot--done' : ''}`}
+                aria-label={`Go to slide ${i + 1}: ${beat.headline}`}
+                onClick={() => setActiveScene(i)}
+              >
+                <span className="brand-story__dot-tooltip">{beat.headline}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Route line animation */}
