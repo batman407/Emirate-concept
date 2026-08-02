@@ -287,63 +287,94 @@ export default function AnimatedRoutes({ cities, hub, animPhase, cityNodeRefs })
         </filter>
       </defs>
 
-      {/* ---- Route lines + trails + planes ---- */}
+      {/* ---- Hub Location Pin (Dubai) ---- */}
+      <g transform={`translate(${hub.x}, ${hub.y - 2.8}) scale(0.12)`} filter="url(#destPulse)">
+        {/* Teardrop Location Pin Body */}
+        <path
+          d="M 0,-16 C -6.6,-16 -12,-10.6 -12,-4 C -12,4 0,16 0,16 C 0,16 12,4 12,-4 C 12,-10.6 6.6,-16 0,-16 Z"
+          fill="#C9A96E"
+          stroke="#ffffff"
+          strokeWidth="1.5"
+        />
+        <circle cx="0" cy="-4" r="4.5" fill="#ffffff" />
+      </g>
+
+      {/* ---- Route lines + location pins + commercial jet planes ---- */}
       {destinations.map((city) => {
         const arcPath = getArcPath(city);
 
         return (
           <g key={city.id}>
-            {/* Trail path (behind route, wider, more transparent) */}
+            {/* Trail path (behind route, wider, dashed) */}
             <path
               id={`trail-path-${city.id}`}
               d={arcPath}
               className="animated-plane-trail"
               stroke={theme.trailStroke}
               strokeWidth={theme.trailWidth}
+              strokeDasharray="0.8, 0.5"
               opacity="0"
             />
 
-            {/* Main route path */}
+            {/* Main route path (dashed high-tech flight arc matching reference style) */}
             <path
               id={`route-path-${city.id}`}
               d={arcPath}
               className="animated-route-path"
               stroke={theme.routeStroke}
               strokeWidth={theme.routeWidth}
+              strokeDasharray="1, 0.6"
               opacity="0"
               filter={isDark ? 'url(#routeGlowNight)' : 'url(#routeGlowDay)'}
             />
 
-            {/* Destination dot (in SVG coordinates) */}
-            <circle
+            {/* Glowing Teardrop Location Pin Marker (Matching reference image map pins) */}
+            <g
               id={`dest-dot-${city.id}`}
-              cx={city.x}
-              cy={city.y}
-              r="1"
-              fill={theme.pulseColor}
+              transform={`translate(${city.x}, ${city.y - 2.8}) scale(0.1)`}
               filter="url(#destPulse)"
-              opacity="0.6"
-            />
+              opacity="0.85"
+            >
+              <path
+                d="M 0,-16 C -6.6,-16 -12,-10.6 -12,-4 C -12,4 0,16 0,16 C 0,16 12,4 12,-4 C 12,-10.6 6.6,-16 0,-16 Z"
+                fill="#d71920"
+                stroke="#ffffff"
+                strokeWidth="1.5"
+              />
+              <circle cx="0" cy="-4" r="4.2" fill="#ffffff" />
+            </g>
 
-            {/* Plane icon */}
+            {/* Commercial Passenger Airliner Jet Silhouette (Matching reference image plane icons) */}
             <g
               id={`plane-${city.id}`}
               className="animated-plane"
               filter={isDark ? 'url(#planeGlowNight)' : 'url(#planeGlowDay)'}
             >
-              {/* Plane shape — sleek triangle with tail */}
-              <polygon
+              {/* Jet thrust engine aura */}
+              <ellipse cx="-1.5" cy="0" rx="1.2" ry="0.45" fill="rgba(255, 106, 0, 0.7)" filter="blur(0.4px)" />
+
+              {/* Commercial Airliner Shape (Swept wings, fuselage, jet engines, tailfin) */}
+              <path
                 className="animated-plane__body"
-                points="-0.8,0.4 1.2,0 -0.8,-0.4 -0.5,0"
+                d="M 2.2,0 
+                   C 1.8,-0.2 1.0,-0.3 0.2,-0.3 
+                   L -0.2,-1.6 
+                   C -0.3,-1.7 -0.5,-1.7 -0.6,-1.5 
+                   L -0.5,-0.3 
+                   L -1.5,-0.3 
+                   L -1.8,-0.8 
+                   C -1.9,-0.9 -2.0,-0.9 -2.1,-0.7 
+                   L -1.8,0 
+                   L -2.1,0.7 
+                   C -2.0,0.9 -1.9,0.9 -1.8,0.8 
+                   L -1.5,0.3 
+                   L -0.5,0.3 
+                   L -0.6,1.5 
+                   C -0.5,1.7 -0.3,1.7 -0.2,1.6 
+                   L 0.2,0.3 
+                   C 1.0,0.3 1.8,0.2 2.2,0 Z"
                 fill={theme.planeFill}
-              />
-              {/* Subtle wing highlight */}
-              <line
-                x1="-0.3"
-                y1="0"
-                x2="0.5"
-                y2="0"
-                stroke="rgba(255,255,255,0.5)"
+                stroke="#ffffff"
                 strokeWidth="0.08"
               />
             </g>

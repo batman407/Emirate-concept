@@ -4,45 +4,58 @@ export default function WorldMapBg() {
   return (
     <g className="world-map-vector-bg">
       <defs>
-        {/* Land gradient for night mode */}
+        {/* Land gradient for night mode — dark navy with subtle champagne edge */}
         <linearGradient id="landGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#141c2b" stopOpacity="0.85" />
-          <stop offset="50%" stopColor="#0f1624" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#181324" stopOpacity="0.85" />
+          <stop offset="0%" stopColor="#0d1b2e" stopOpacity="0.9" />
+          <stop offset="50%" stopColor="#091322" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#121d33" stopOpacity="0.9" />
         </linearGradient>
 
         {/* Land gradient for day mode */}
         <linearGradient id="landGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#1e293b" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#0f172a" stopOpacity="0.85" />
+          <stop offset="0%" stopColor="#15243b" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#0a1526" stopOpacity="0.9" />
         </linearGradient>
 
         {/* Coastline glow filter */}
         <filter id="coastGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="0.4" result="blur" />
+          <feGaussianBlur stdDeviation="0.5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
 
-        {/* Dot pattern overlay for flight radar feel */}
-        <pattern id="radarGridDots" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.25" fill="rgba(201, 169, 110, 0.15)" />
+        {/* Blueprint Fine Grid Pattern matching reference image */}
+        <pattern id="flightGrid" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+          <path d="M 4 0 L 0 0 0 4" fill="none" stroke="rgba(201, 169, 110, 0.08)" strokeWidth="0.1" />
         </pattern>
+        
+        {/* Radial glow around Dubai Hub */}
+        <radialGradient id="dubaiGlow" cx="58%" cy="42%" r="45%">
+          <stop offset="0%" stopColor="rgba(201, 169, 110, 0.25)" />
+          <stop offset="50%" stopColor="rgba(215, 25, 33, 0.12)" />
+          <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
+        </radialGradient>
       </defs>
 
+      {/* Dubai Hub Radial Ambient Glow */}
+      <rect x="0" y="0" width="100" height="75" fill="url(#dubaiGlow)" pointerEvents="none" />
+
+      {/* Blueprint Grid Overlay */}
+      <rect x="0" y="0" width="100" height="75" fill="url(#flightGrid)" pointerEvents="none" />
+
       {/* Lat / Long Graticules */}
-      <g className="graticule-lines" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="0.15" strokeDasharray="0.5,0.5">
+      <g className="graticule-lines" stroke="rgba(201, 169, 110, 0.12)" strokeWidth="0.12" strokeDasharray="0.6,0.6">
         {/* Equator & Tropics */}
-        <line x1="0" y1="37.5" x2="100" y2="37.5" stroke="rgba(201, 169, 110, 0.15)" strokeWidth="0.2" />
+        <line x1="0" y1="37.5" x2="100" y2="37.5" stroke="rgba(201, 169, 110, 0.22)" strokeWidth="0.18" />
         <line x1="0" y1="20" x2="100" y2="20" />
         <line x1="0" y1="55" x2="100" y2="55" />
         
         {/* Meridians */}
         <line x1="20" y1="0" x2="20" y2="75" />
         <line x1="40" y1="0" x2="40" y2="75" />
-        <line x1="60" y1="0" x2="60" y2="75" stroke="rgba(201, 169, 110, 0.12)" strokeWidth="0.2" />
+        <line x1="58" y1="0" x2="58" y2="75" stroke="rgba(201, 169, 110, 0.22)" strokeWidth="0.18" />
         <line x1="80" y1="0" x2="80" y2="75" />
       </g>
 
@@ -165,9 +178,6 @@ export default function WorldMapBg() {
           className="continent-shape"
         />
       </g>
-
-      {/* Radar Matrix Dots Fill over continents */}
-      <rect x="0" y="0" width="100" height="75" fill="url(#radarGridDots)" pointerEvents="none" opacity="0.6" />
     </g>
   );
 }
